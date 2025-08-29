@@ -5,7 +5,13 @@ const { Client, Collection, GatewayIntentBits } = require('discord.js');
 const { token } = require('./config.json');
 
 // Create a new client instance
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+const client = new Client({
+	intents: [
+		GatewayIntentBits.Guilds,
+		GatewayIntentBits.GuildMessages,
+		GatewayIntentBits.MessageContent
+	]
+});
 
 client.commands = new Collection();
 
@@ -39,6 +45,16 @@ for (const file of eventFiles) {
 		client.on(event.name, (...args) => event.execute(...args));
 	}
 }
+
+client.on('messageCreate', (message) => {
+    // Ignore messages from bots to prevent infinite loops
+    if (message.author.bot) return;
+
+    // Example: Reply to a message if it contains "hello"
+    if (message.content.toLowerCase().includes('problem')) {
+        message.reply('problemen');
+    }
+});
 
 // Log in to Discord with your client's token
 client.login(token);
