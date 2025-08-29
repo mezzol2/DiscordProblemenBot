@@ -1,3 +1,6 @@
+# json config file contains our API token
+config.json
+
 # Logs
 logs
 *.log
